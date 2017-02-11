@@ -1,10 +1,10 @@
 var app = angular.module('notes',
     [
         'ngRoute',
-        'LocalStorageModule'
+        'ngStorage'
     ]);
 
-app.config(function($routeProvider,localStorageServiceProvider,$locationProvider) {
+app.config(function($routeProvider,$locationProvider) {
   $routeProvider
   .when("/", {
     templateUrl : "assets/templates/home/home.html",
@@ -14,12 +14,13 @@ app.config(function($routeProvider,localStorageServiceProvider,$locationProvider
     templateUrl : "assets/templates/note/note.html",
     controller: "noteCtrl"
   })
+  .when('/add',{
+    template: "Creator",
+  })
   .otherwise({
     templateUrl: "assets/templates/home/home.html",
     controller: "homeCtrl"
   })
-
-  localStorageServiceProvider.setPrefix('notes');
 
   $locationProvider.html5Mode(true);
 });

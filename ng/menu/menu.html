@@ -1,3 +1,10 @@
-<div >
-    hello
-</div>
+<nav id="menu">
+    <h2 class="logo">Notes</h2>
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/add">Add note</a></li>
+    </ul>
+    <ul id="notes-list" ng-show="showList">
+        <li ng-repeat="note in notes track by $index"><a ng-href="/note/{{$index}}">{{note.title}}</a></li>
+    </ul>
+</nav>

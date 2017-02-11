@@ -1,4 +1,4 @@
-angular.module('notes').directive('menu',()=>{
+angular.module('notes').directive('appMenu',function(){
     return {
         restrict: 'E',
         scope: {
