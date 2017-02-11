@@ -10,6 +10,15 @@ body {
   height: 100%;
 }
 
+.note-thumbnail {
+  box-sizing: border-box;
+  margin-right: 0;
+  margin-bottom: 0;
+  height: 10vh;
+}
+.thumbnail-space {
+  padding: 0;
+}
 
 .logo {
   font-family: 'Pacifico', cursive;

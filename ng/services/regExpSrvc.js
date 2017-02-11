@@ -1,7 +1,12 @@
-angular.module('notes').service('regExpSrvc', function ($localStorage) {
-    this.extractUrls = (content)=>{
-        var pattern = new RegExp("^https?://(?:[a-z0-9\-]+\.)+[a-z]{2,6}(?:/[^/#?]+)+\.(?:jpg|gif|png)$");
-        return pattern.exec(content);
+angular.module('notes').service('regExpSrvc', function () {
+    this.extractUrls = (content) => {
+        var pattern = /https?:\/\/([a-z0-9-.\/_#\^\?=:]*)\.(jpg|png|gif)/ig;
+        var array = [];
+        var url;
+        while ((url = pattern.exec(content)) !== null) {
+            array.push(url[0]);
+        }
+        return array;
     }
 });
 

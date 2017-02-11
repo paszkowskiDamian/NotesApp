@@ -25,18 +25,24 @@ app.config(function($routeProvider,$locationProvider) {
   $locationProvider.html5Mode(true);
 });
 
-angular.module('notes').controller('homeCtrl', function ($scope, notesSrvc,regExpSrvc) {
-    $scope.hello = "hello";
+angular.module('notes').controller('homeCtrl', function ($scope, notesSrvc, regExpSrvc) {
+
     $scope.add = () => {
         notesSrvc.createNote('new note', 'some http://ichef-1.bbci.co.uk/news/ws/660/amz/worldservice/live/assets/images/2015/12/31/151231172853_lions_grooming_512x288_sciencephoyolibrary_nocredit.jpg content https://www.cleverfiles.com/howto/wp-content/uploads/2016/08/mini.jpg');
     }
-    $scope.get = () => {
+
+    ($scope.get = () => {
         notesSrvc.getAllNotes().then((result) => {
-            console.log(result);
+            $scope.notes = result;
+            $scope.notes.map((note)=>{
+                note.image = regExpSrvc.extractUrls(note.content)[0];
+                return note;
+            })
         }, (err) => {
             console.log(err);
         })
-    }
+    })();
+
     $scope.getNote = (index) => {
         notesSrvc.getNote(index).then((result) => {
             console.log(result);
@@ -45,13 +51,17 @@ angular.module('notes').controller('homeCtrl', function ($scope, notesSrvc,regEx
         })
     }
 
-    $scope.delete =  (index) => {
-        notesSrvc.deleteNote(index).then( (result)=>{
+    $scope.delete = (index) => {
+        notesSrvc.deleteNote(index).then((result) => {
             console.log(result);
-        },(err)=>{
+        }, (err) => {
             console.log(err);
-        } )
+        })
     }
+
+
+    
+
 
 });
 angular.module('notes').directive('appMenu',function(){
@@ -69,7 +79,6 @@ angular.module('notes').controller('menuCtrl',function ($scope,notesSrvc,regExpS
     notesSrvc.getAllNotes().then( (result)=>{
         $scope.showList = true;
         $scope.notes = result;
-        console.log(regExpSrvc.extractUrls($scope.notes[0].content));
     },(err)=>{
         $scope.showList = false;
         $scope.notes = err;
@@ -79,8 +88,15 @@ angular.module('notes').controller('menuCtrl',function ($scope,notesSrvc,regExpS
 
 
 })
-angular.module('notes').controller('noteCtrl',function ($scope,$routeParams){
-    $scope.params = $routeParams;
+angular.module('notes').controller('noteCtrl',function ($scope,$routeParams,notesSrvc,regExpSrvc){
+
+    notesSrvc.getNote($routeParams.index).then((res)=>{
+        $scope.note = res;
+        $scope.images = regExpSrvc.extractUrls(res.content);
+    },(err)=>{
+        $scope.note = err;
+    });
+    
 })
 angular.module('notes').service('notesSrvc', function ($localStorage) {
 
@@ -151,10 +167,15 @@ angular.module('notes').service('notesSrvc', function ($localStorage) {
     }
 
 })
-angular.module('notes').service('regExpSrvc', function ($localStorage) {
-    this.extractUrls = (content)=>{
-        var pattern = new RegExp("^https?://(?:[a-z0-9\-]+\.)+[a-z]{2,6}(?:/[^/#?]+)+\.(?:jpg|gif|png)$");
-        return pattern.exec(content);
+angular.module('notes').service('regExpSrvc', function () {
+    this.extractUrls = (content) => {
+        var pattern = /https?:\/\/([a-z0-9-.\/_#\^\?=:]*)\.(jpg|png|gif)/ig;
+        var array = [];
+        var url;
+        while ((url = pattern.exec(content)) !== null) {
+            array.push(url[0]);
+        }
+        return array;
     }
 });
 
