@@ -15,7 +15,8 @@ app.config(function($routeProvider,$locationProvider) {
     controller: "noteCtrl"
   })
   .when('/add',{
-    template: "Creator",
+    templateUrl: "assets/templates/add/add.html",
+    controller: "addCtrl"
   })
   .otherwise({
     templateUrl: "assets/templates/home/home.html",

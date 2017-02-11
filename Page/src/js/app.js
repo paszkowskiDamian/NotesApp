@@ -15,7 +15,8 @@ app.config(function($routeProvider,$locationProvider) {
     controller: "noteCtrl"
   })
   .when('/add',{
-    template: "Creator",
+    templateUrl: "assets/templates/add/add.html",
+    controller: "addCtrl"
   })
   .otherwise({
     templateUrl: "assets/templates/home/home.html",
@@ -25,6 +26,19 @@ app.config(function($routeProvider,$locationProvider) {
   $locationProvider.html5Mode(true);
 });
 
+angular.module('notes').controller('addCtrl', function ($scope, notesSrvc, regExpSrvc) {
+    $scope.images = [];
+    $scope.number = 0;
+
+    $scope.updata = () => {
+        $scope.images = regExpSrvc.extractUrls($scope.content);
+        $scope.number = $scope.images.length;
+    }
+
+    $scope.submit = () => {
+        notesSrvc.createNote($scope.title, $scope.content);
+    }
+})
 angular.module('notes').controller('homeCtrl', function ($scope, notesSrvc, regExpSrvc) {
 
     $scope.add = () => {
@@ -89,6 +103,13 @@ angular.module('notes').controller('menuCtrl',function ($scope,notesSrvc,regExpS
 
 })
 angular.module('notes').controller('noteCtrl',function ($scope,$routeParams,notesSrvc,regExpSrvc){
+
+    $scope.edit = false;
+    
+    $scope.update = () =>{
+        notesSrvc.editNote($routeParams.index,$scope.note.content,$scope.note.title);
+        $scope.edit = false;
+    }
 
     notesSrvc.getNote($routeParams.index).then((res)=>{
         $scope.note = res;
@@ -169,7 +190,7 @@ angular.module('notes').service('notesSrvc', function ($localStorage) {
 })
 angular.module('notes').service('regExpSrvc', function () {
     this.extractUrls = (content) => {
-        var pattern = /https?:\/\/([a-z0-9-.\/_#\^\?=:]*)\.(jpg|png|gif)/ig;
+        var pattern = /https?:\/\/([a-z0-9-.\/_#\^\?=:\,%]*)\.(jpg|png|gif)\b/ig;
         var array = [];
         var url;
         while ((url = pattern.exec(content)) !== null) {

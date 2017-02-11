@@ -1,6 +1,6 @@
 angular.module('notes').service('regExpSrvc', function () {
     this.extractUrls = (content) => {
-        var pattern = /https?:\/\/([a-z0-9-.\/_#\^\?=:]*)\.(jpg|png|gif)/ig;
+        var pattern = /https?:\/\/([a-z0-9-.\/_#\^\?=:\,%]*)\.(jpg|png|gif)\b/ig;
         var array = [];
         var url;
         while ((url = pattern.exec(content)) !== null) {
