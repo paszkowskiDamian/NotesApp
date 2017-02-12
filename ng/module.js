@@ -1,7 +1,8 @@
 var app = angular.module('notes',
     [
         'ngRoute',
-        'ngStorage'
+        'ngStorage',
+        'ngAnimate'
     ]);
 
 app.config(function($routeProvider,$locationProvider) {
