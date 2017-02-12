@@ -11,7 +11,7 @@ angular.module('notes').service('notesSrvc', function ($localStorage) {
         }
         $localStorage.notes.push(note);
         return new Promise(function (resolve, reject) {
-            resolve("note added!");
+            resolve($localStorage.notes.length-1);
         })
     }
 
@@ -38,8 +38,10 @@ angular.module('notes').service('notesSrvc', function ($localStorage) {
     this.editNote = (index, title, content) => {
         return new Promise((resolve, reject) => {
             if (vilidateIndex(index)) {
+                var note = $localStorage.notes[index];
                 note.content = content;
                 note.title = title;
+                $localStorage.notes[index] = note;
                 resolve(note);
             } else {
                 reject('No mathing note found :(');

@@ -6,15 +6,12 @@
             <p class='note-content' ng-if="!edit">{{note.content}}</p>
             <form ng-if="edit">
                 <div class="form-group">
-                    <textarea class="form-control note-edit" rows="10" ng-model="note.content"></textarea>
-                </div>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-secondary" ng-click="update()">Save</button>
+                    <textarea class="form-control note-edit" rows="10" ng-keyup="update()" ng-model="note.content"></textarea>
                 </div>
             </form>
             <div class='note-menu'>
-                <small ng-click="edit = !edit"><i class="fa fa-pencil" aria-hidden="true"></i></i> edit</small>
-                <small><i class="fa fa-trash" aria-hidden="true"></i> delete</small>
+                <small ng-click="edit = !edit"><i class="fa fa-pencil" aria-hidden="true"></i></i><span ng-if="!edit"> edit</span><span ng-if="edit"> ok</span></small>
+                <small><span ng-click="delete()"><i class="fa fa-trash"  aria-hidden="true"></i> delete</span></small>
             </div>
         </div>
     </div>

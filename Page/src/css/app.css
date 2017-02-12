@@ -10,16 +10,36 @@ body {
   height: 100%;
   overflow: hidden;
 }
+a {
+  color: #323232;
+  text-decoration: none;
+}
 
+.add-img-preview {
+  height: 4em;
+  margin-right: 0.2em;
+  margin-bottom: 0.2em;
+}
 
 .note-thumbnail {
   margin-bottom: 5px;
   box-sizing: border-box;
   height: 20vh;
+  box-shadow: none;
   border-right: 5px solid #fff;
+  -webkit-filter: opacity(80%);
+  filter: opacity(80%);
+  transition: 0.2s;
+}
+.note-thumbnail:hover {
+  transition: 0.2s;
+  -webkit-filter: opacity(100%);
+  filter: opacity(100%);
 }
 .thumbnail-space {
   padding: 0;
+  box-shadow: none;
+  border: none;
 }
 .note-title {
   position: absolute;
@@ -40,6 +60,20 @@ body {
 }
 #menu {
   margin: 0;
+}
+.mobile-menu {
+  position: fixed;
+  bottom: 5%;
+  right: 5%;
+  z-index: 10;
+  border-radius: 50%;
+  background-color: #ff6e40;
+  width: 3.5em;
+  height: 3.5em;
+}
+.menu-icon {
+  margin-left: 1em;
+  margin-top: 1em;
 }
 
 .note-content {

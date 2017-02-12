@@ -1,10 +1,19 @@
 <nav id="menu">
     <h2 class="logo">Notes</h2>
-    <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/add">Add note</a></li>
-    </ul>
-    <ul id="notes-list" ng-show="showList">
-        <li ng-repeat="note in notes track by $index"><a ng-href="/note/{{$index}}">{{note.title}}</a></li>
-    </ul>
+    <div class="hidden-sm-down">
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/add">Add note</a></li>
+        </ul>
+        <ul id="notes-list" ng-show="showList">
+            <li ng-repeat="note in notes track by $index"><a ng-href="/note/{{$index}}">{{note.title}}</a></li>
+        </ul>
+    </div>
+
+    <div class="mobile-menu hidden-md-up">
+        <div>
+            <i class="fa fa-bars fa-fg fa-fw menu-icon" aria-hidden="true"></i>
+        </div>
+    </div>
+
 </nav>

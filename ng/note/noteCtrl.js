@@ -1,17 +1,27 @@
-angular.module('notes').controller('noteCtrl',function ($scope,$routeParams,notesSrvc,regExpSrvc){
+angular.module('notes').controller('noteCtrl', function ($scope,$location, $routeParams, notesSrvc, regExpSrvc) {
 
     $scope.edit = false;
-    
-    $scope.update = () =>{
-        notesSrvc.editNote($routeParams.index,$scope.note.content,$scope.note.title);
-        $scope.edit = false;
+
+
+    $scope.update = () => {
+        notesSrvc.editNote($routeParams.index, $scope.note.title, $scope.note.content);
+        $scope.images = regExpSrvc.extractUrls($scope.note.content);
+    };
+
+    $scope.delete = () => {
+        console.log($routeParams);
+        if(window.confirm("Are you Sure?"))
+        {
+            notesSrvc.deleteNote($routeParams.index);
+            $location.path('/')
+        }
     }
 
-    notesSrvc.getNote($routeParams.index).then((res)=>{
+    notesSrvc.getNote($routeParams.index).then((res) => {
         $scope.note = res;
         $scope.images = regExpSrvc.extractUrls(res.content);
-    },(err)=>{
+    }, (err) => {
         $scope.note = err;
     });
-    
+
 })

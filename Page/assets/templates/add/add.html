@@ -1,19 +1,19 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-6">
-            <form>
+            <form> 
                 <div class="form-group">
-                    <label for="title-imput">Title</label>
-                    <input type="text" class="form-control" id="title-imput" placeholder="Enter note title" ng-model="title" maxlength="50" required>
-                    <small id="ttitle-limit" class="form-text text-muted">50 characters left</small>
+                    <label for="title-imput">Title:</label>
+                    <input type="text" class="form-control" id="title-imput" placeholder="Enter note title" ng-model="title" ng-keyup="charLeft = charMax - title.length" maxlength="{{charMax}}" required>
+                    <small id="ttitle-limit" class="form-text text-muted">{{charLeft}} characters left</small>
                 </div>
                 <div class="form-group">
                     <label for="note-area">Your Note:</label>
                     <textarea class="form-control" id="note-area" rows="10" 
                         ng-model="content"
-                        ng-keyup="updata()"
+                        ng-keyup="update()"
                         required></textarea>
-                    <small id="images-indicator" class="form-text text-muted">{{number}} image<span ng-if="number !== 1">s</span> found</small>
+                    <small id="images-indicator" class="form-text text-muted">{{numberOfImages}} image<span ng-if="numberOfImages !== 1">s</span> found</small>
                 </div>
                 <button type="submit" class="btn btn-secondary" ng-click="submit()">Add</button>
             </form>
@@ -22,11 +22,11 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-12">
-                        Images
+                        <p>Images:</p>
                     </div>
                 </div>
                 <div class="row">
-                    <img ng-repeat="url in images track by $index" ng-src="{{url}}">
+                    <img ng-repeat="url in images track by $index" class="add-img-preview" ng-src="{{url}}">
                 </div>
             </div>
         </div>

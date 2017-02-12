@@ -26,20 +26,36 @@ app.config(function($routeProvider,$locationProvider) {
   $locationProvider.html5Mode(true);
 });
 
-angular.module('notes').controller('addCtrl', function ($scope, notesSrvc, regExpSrvc) {
+angular.module('notes').controller('addCtrl', function ($scope, $location, notesSrvc, regExpSrvc) {
     $scope.images = [];
-    $scope.number = 0;
+    $scope.numberOfImages = 0;
+    $scope.charMax = 30;
+    $scope.charLeft = $scope.charMax;
 
-    $scope.updata = () => {
+    $scope.update = () => {
+
         $scope.images = regExpSrvc.extractUrls($scope.content);
         $scope.number = $scope.images.length;
+
     }
 
     $scope.submit = () => {
-        notesSrvc.createNote($scope.title, $scope.content);
+        if ($scope.title.length > 0 && $scope.content.length > 0) {
+            notesSrvc.createNote($scope.title, $scope.content).then((res) => {
+
+                $location.path('/note/' + res);
+
+            }, (err) => {
+                //on submit error 
+            });
+        }
     }
 })
 angular.module('notes').controller('homeCtrl', function ($scope, notesSrvc, regExpSrvc) {
+
+    $scope.navigate = (index) => {
+        
+    }
 
     $scope.add = () => {
         notesSrvc.createNote('new note', 'some http://ichef-1.bbci.co.uk/news/ws/660/amz/worldservice/live/assets/images/2015/12/31/151231172853_lions_grooming_512x288_sciencephoyolibrary_nocredit.jpg content https://www.cleverfiles.com/howto/wp-content/uploads/2016/08/mini.jpg');
@@ -48,7 +64,7 @@ angular.module('notes').controller('homeCtrl', function ($scope, notesSrvc, regE
     ($scope.get = () => {
         notesSrvc.getAllNotes().then((result) => {
             $scope.notes = result;
-            $scope.notes.map((note)=>{
+            $scope.notes.map((note) => {
                 note.image = regExpSrvc.extractUrls(note.content)[0];
                 return note;
             })
@@ -74,7 +90,7 @@ angular.module('notes').controller('homeCtrl', function ($scope, notesSrvc, regE
     }
 
 
-    
+
 
 
 });
@@ -102,22 +118,32 @@ angular.module('notes').controller('menuCtrl',function ($scope,notesSrvc,regExpS
 
 
 })
-angular.module('notes').controller('noteCtrl',function ($scope,$routeParams,notesSrvc,regExpSrvc){
+angular.module('notes').controller('noteCtrl', function ($scope,$location, $routeParams, notesSrvc, regExpSrvc) {
 
     $scope.edit = false;
-    
-    $scope.update = () =>{
-        notesSrvc.editNote($routeParams.index,$scope.note.content,$scope.note.title);
-        $scope.edit = false;
+
+
+    $scope.update = () => {
+        notesSrvc.editNote($routeParams.index, $scope.note.title, $scope.note.content);
+        $scope.images = regExpSrvc.extractUrls($scope.note.content);
+    };
+
+    $scope.delete = () => {
+        console.log($routeParams);
+        if(window.confirm("Are you Sure?"))
+        {
+            notesSrvc.deleteNote($routeParams.index);
+            $location.path('/')
+        }
     }
 
-    notesSrvc.getNote($routeParams.index).then((res)=>{
+    notesSrvc.getNote($routeParams.index).then((res) => {
         $scope.note = res;
         $scope.images = regExpSrvc.extractUrls(res.content);
-    },(err)=>{
+    }, (err) => {
         $scope.note = err;
     });
-    
+
 })
 angular.module('notes').service('notesSrvc', function ($localStorage) {
 
@@ -132,7 +158,7 @@ angular.module('notes').service('notesSrvc', function ($localStorage) {
         }
         $localStorage.notes.push(note);
         return new Promise(function (resolve, reject) {
-            resolve("note added!");
+            resolve($localStorage.notes.length-1);
         })
     }
 
@@ -159,8 +185,10 @@ angular.module('notes').service('notesSrvc', function ($localStorage) {
     this.editNote = (index, title, content) => {
         return new Promise((resolve, reject) => {
             if (vilidateIndex(index)) {
+                var note = $localStorage.notes[index];
                 note.content = content;
                 note.title = title;
+                $localStorage.notes[index] = note;
                 resolve(note);
             } else {
                 reject('No mathing note found :(');
@@ -190,7 +218,7 @@ angular.module('notes').service('notesSrvc', function ($localStorage) {
 })
 angular.module('notes').service('regExpSrvc', function () {
     this.extractUrls = (content) => {
-        var pattern = /https?:\/\/([a-z0-9-.\/_#\^\?=:\,%]*)\.(jpg|png|gif)\b/ig;
+        var pattern = /https?:\/\/([a-z0-9-.\/_#\^\?=:\,%@]*)\.(jpg|png|gif|jpeg)\b/ig;
         var array = [];
         var url;
         while ((url = pattern.exec(content)) !== null) {
