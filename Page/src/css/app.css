@@ -73,6 +73,9 @@ a:link {
   color: #dfdfdf;
   margin-top: 6em;
 }
+.search-panel {
+  margin: 10px;
+}
 
 .logo {
   font-family: 'Pacifico', cursive;
