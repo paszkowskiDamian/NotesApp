@@ -7,6 +7,10 @@
     -webkit-filter: opacity(80%);
     filter: opacity(80%);
     transition: 0.2s;
+   display: table-cell;
+   text-align: center;
+   padding: 1em;
+   background-color: #f3f3f3;
 }
 
 .note-thumbnail:hover{
@@ -21,13 +25,26 @@
     border: none;
 }
 
+.thumbnail-icon{
+   color: #a2a2a2
+}
 
 .note-title{
     position: absolute;
+    text-align: left;
     background-color: rgba(192, 192, 192, 0.8);
     padding: 3px;
     bottom: 0;
     left: 0;
     width: 100%;
     word-wrap: break-word;
+}
+
+.home-msg{
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    font-family: 'Pacifico', cursive;
+    color: #dfdfdf;
+    margin-top: 6em;
 }

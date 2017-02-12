@@ -7,7 +7,7 @@ angular.module('notes').controller('addCtrl', function ($scope, $location, notes
     $scope.update = () => {
 
         $scope.images = regExpSrvc.extractUrls($scope.content);
-        $scope.number = $scope.images.length;
+        $scope.numberOfImages = $scope.images.length;
 
     }
 

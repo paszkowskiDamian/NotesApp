@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid note">
     <div class="row">
         <div class="col-12">
             <h3>{{note.title}}</h3>
@@ -16,6 +16,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-2 note-images" ng-repeat="url in images track by $index" ng-style="{'background-image' : 'url({{url}})' , 'background-size' : 'cover' , 'background-position': 'center' }"></div>
+        <div class="col-md-2 note-images" ng-repeat="url in images track by $index" ng-click="copy(url)" ng-style="{'background-image' : 'url({{url}})' , 'background-size' : 'contain', 'background-repeat' : 'no-repeat' , 'background-position': 'center' }"></div>
     </div>
 </div>
+

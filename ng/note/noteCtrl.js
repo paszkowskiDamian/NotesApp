@@ -1,7 +1,11 @@
-angular.module('notes').controller('noteCtrl', function ($scope,$location, $routeParams, notesSrvc, regExpSrvc) {
+angular.module('notes').controller('noteCtrl', function ($scope, $location, $routeParams, notesSrvc, regExpSrvc) {
 
     $scope.edit = false;
 
+    $scope.copy = (url) => {
+        url.select();
+        document.execCommand('copy');
+    }
 
     $scope.update = () => {
         notesSrvc.editNote($routeParams.index, $scope.note.title, $scope.note.content);
@@ -9,9 +13,7 @@ angular.module('notes').controller('noteCtrl', function ($scope,$location, $rout
     };
 
     $scope.delete = () => {
-        console.log($routeParams);
-        if(window.confirm("Are you Sure?"))
-        {
+        if (window.confirm("Are you Sure?")) {
             notesSrvc.deleteNote($routeParams.index);
             $location.path('/')
         }

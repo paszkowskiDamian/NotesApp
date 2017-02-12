@@ -1,14 +1,11 @@
-angular.module('notes').controller('menuCtrl',function ($scope,notesSrvc,regExpSrvc){
-    
-    notesSrvc.getAllNotes().then( (result)=>{
+angular.module('notes').controller('menuCtrl', function ($scope, $location, notesSrvc) {
+
+    notesSrvc.getAllNotes().then((result) => {
         $scope.showList = true;
         $scope.notes = result;
-    },(err)=>{
+    }, (err) => {
         $scope.showList = false;
         $scope.notes = err;
-    } );
-
-
-
+    });
 
 })

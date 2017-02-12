@@ -1,19 +1,22 @@
 <nav id="menu">
-    <h2 class="logo">Notes</h2>
+    <a href="/">
+        <h2 class="logo">Notes</h2>
+    </a>
     <div class="hidden-sm-down">
-        <ul>
+        <ul class="menu-controls">
             <li><a href="/">Home</a></li>
             <li><a href="/add">Add note</a></li>
         </ul>
+        <hr>
         <ul id="notes-list" ng-show="showList">
             <li ng-repeat="note in notes track by $index"><a ng-href="/note/{{$index}}">{{note.title}}</a></li>
         </ul>
     </div>
-
-    <div class="mobile-menu hidden-md-up">
-        <div>
-            <i class="fa fa-bars fa-fg fa-fw menu-icon" aria-hidden="true"></i>
+    <a ng-href="/add">
+        <div class="mobile-menu hidden-md-up" ng-click="responsiveMenu()">
+            <div>
+                <i class="fa fa-plus fa-fg fa-fw menu-icon" aria-hidden="true"></i>
+            </div>
         </div>
-    </div>
-
+    </a>
 </nav>

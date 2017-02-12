@@ -35,7 +35,7 @@ angular.module('notes').controller('addCtrl', function ($scope, $location, notes
     $scope.update = () => {
 
         $scope.images = regExpSrvc.extractUrls($scope.content);
-        $scope.number = $scope.images.length;
+        $scope.numberOfImages = $scope.images.length;
 
     }
 
@@ -53,45 +53,18 @@ angular.module('notes').controller('addCtrl', function ($scope, $location, notes
 })
 angular.module('notes').controller('homeCtrl', function ($scope, notesSrvc, regExpSrvc) {
 
-    $scope.navigate = (index) => {
-        
-    }
-
-    $scope.add = () => {
-        notesSrvc.createNote('new note', 'some http://ichef-1.bbci.co.uk/news/ws/660/amz/worldservice/live/assets/images/2015/12/31/151231172853_lions_grooming_512x288_sciencephoyolibrary_nocredit.jpg content https://www.cleverfiles.com/howto/wp-content/uploads/2016/08/mini.jpg');
-    }
-
     ($scope.get = () => {
         notesSrvc.getAllNotes().then((result) => {
             $scope.notes = result;
             $scope.notes.map((note) => {
                 note.image = regExpSrvc.extractUrls(note.content)[0];
+                $scope.msg = ""
                 return note;
             })
         }, (err) => {
-            console.log(err);
+            $scope.msg = "Add some notes! :)"
         })
     })();
-
-    $scope.getNote = (index) => {
-        notesSrvc.getNote(index).then((result) => {
-            console.log(result);
-        }, (err) => {
-            console.log(err);
-        })
-    }
-
-    $scope.delete = (index) => {
-        notesSrvc.deleteNote(index).then((result) => {
-            console.log(result);
-        }, (err) => {
-            console.log(err);
-        })
-    }
-
-
-
-
 
 });
 angular.module('notes').directive('appMenu',function(){
@@ -104,24 +77,25 @@ angular.module('notes').directive('appMenu',function(){
         templateUrl : 'assets/templates/menu/menu.html'
     }
 }) 
-angular.module('notes').controller('menuCtrl',function ($scope,notesSrvc,regExpSrvc){
-    
-    notesSrvc.getAllNotes().then( (result)=>{
+angular.module('notes').controller('menuCtrl', function ($scope, $location, notesSrvc) {
+
+    notesSrvc.getAllNotes().then((result) => {
         $scope.showList = true;
         $scope.notes = result;
-    },(err)=>{
+    }, (err) => {
         $scope.showList = false;
         $scope.notes = err;
-    } );
-
-
-
+    });
 
 })
-angular.module('notes').controller('noteCtrl', function ($scope,$location, $routeParams, notesSrvc, regExpSrvc) {
+angular.module('notes').controller('noteCtrl', function ($scope, $location, $routeParams, notesSrvc, regExpSrvc) {
 
     $scope.edit = false;
 
+    $scope.copy = (url) => {
+        url.select();
+        document.execCommand('copy');
+    }
 
     $scope.update = () => {
         notesSrvc.editNote($routeParams.index, $scope.note.title, $scope.note.content);
@@ -129,9 +103,7 @@ angular.module('notes').controller('noteCtrl', function ($scope,$location, $rout
     };
 
     $scope.delete = () => {
-        console.log($routeParams);
-        if(window.confirm("Are you Sure?"))
-        {
+        if (window.confirm("Are you Sure?")) {
             notesSrvc.deleteNote($routeParams.index);
             $location.path('/')
         }

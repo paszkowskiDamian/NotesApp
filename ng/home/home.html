@@ -1,7 +1,9 @@
 <div class="container-fluid">
+    <h2 class="home-msg">{{msg}}</h2>
     <div class="row thumbnail-space">
-        <a href="/note/{{$index}}" class="col-md-3 note-thumbnail" ng-repeat="note in notes track by $index" ng-style="{'background-image' : 'url({{note.image}})', 'background-size' : 'cover'}">
+        <a ng-href="/note/{{$index}}" class="col-md-3 note-thumbnail" ng-repeat="note in notes track by $index" ng-style="{'background-image' : 'url({{note.image}})', 'background-size' : 'cover'}">
             <div class="note-title">{{note.title}}</div>
+            <i class="fa fa-picture-o fa-2x thumbnail-icon" ng-if="note.image === undefined" aria-hidden="true"></i>
         </a>
     </div>
 </div>
