@@ -11,7 +11,7 @@ Then run app
 ```
 gulp run
 ```
-In browser go to :
+In a browser open
 ```
 localhost:3000
 ```
