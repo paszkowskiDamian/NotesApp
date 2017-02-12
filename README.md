@@ -7,7 +7,11 @@ Download or clone repository. Install depedencies.
 ```
 npm install
 ```
-Then run app>
+Then run app
 ```
 gulp run
+```
+In browser go to :
+```
+localhost:3000
 ```
