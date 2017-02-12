@@ -32,3 +32,5 @@ gulp.task('webserver', function() {
 });
 
 gulp.task('dev',['watch:js','watch:html','watch:css','webserver']);
+
+gulp.task('run',['html','js','css','webserver']);
