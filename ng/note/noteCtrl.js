@@ -2,11 +2,6 @@ angular.module('notes').controller('noteCtrl', function ($scope, $location, $rou
 
     $scope.edit = false;
 
-    $scope.copy = (url) => {
-        url.select();
-        document.execCommand('copy');
-    }
-
     $scope.update = () => {
         notesSrvc.editNote($routeParams.index, $scope.note.title, $scope.note.content);
         $scope.images = regExpSrvc.extractUrls($scope.note.content);
