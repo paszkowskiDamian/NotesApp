@@ -1,6 +1,6 @@
 <nav id="menu">
     <a href="/">
-        <h2 class="logo">Notes</h2>
+        <h2 class="logo" ng-click="showMenu = false; searchClass = ''">Notes</h2>
     </a>
     <div class="hidden-sm-down">
         <ul class="menu-controls">
@@ -12,11 +12,29 @@
             <li ng-repeat="note in notes track by $index"><a ng-href="/note/{{$index}}">{{note.title}}</a></li>
         </ul>
     </div>
-    <a ng-href="/add">
-        <div class="mobile-menu hidden-md-up" ng-click="responsiveMenu()">
+    <div class="hidden-md-up">
+        <div class="mobile-menu" ng-click="menu()">
             <div>
-                <i class="fa fa-plus fa-fg fa-fw menu-icon" aria-hidden="true"></i>
+                <i class="fa fa-bars fa-fg fa-fw menu-icon" aria-hidden="true"></i>
             </div>
         </div>
-    </a>
+
+        <div class="mobile-menu mobile-menu-add " ng-click="navigateTo()" ng-show="showMenu">
+            <div>
+                <i class="fa fa-fg fa-fw menu-icon" ng-class="home ? 'fa-home' : 'fa-plus'" aria-hidden="true"></i>
+            </div>
+        </div>
+        <!--<div class="mobile-menu mobile-menu-search" ng-click="search()" ng-class="searchClass" ng-show="showMenu">
+        <div>
+            <i class="fa fa-search fa-fg fa-fw menu-icon" ng-if="searchClass === ''"  aria-hidden="true"></i>
+            <input class="search-input" ng-if="searchClass !== ''" type="text">
+        </div>
+    </div>-->
+        <div class="mobile-menu mobile-menu-search " ng-show="showMenu">
+            <div>
+                <i class="fa fa-search fa-fg fa-fw menu-icon" ng-if="searchClass === ''" aria-hidden="true"></i>
+                <input class="search-input" ng-if="searchClass !== ''" type="text">
+            </div>
+        </div>
+    </div>
 </nav>

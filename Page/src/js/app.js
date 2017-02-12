@@ -1,7 +1,8 @@
 var app = angular.module('notes',
     [
         'ngRoute',
-        'ngStorage'
+        'ngStorage',
+        'ngAnimate'
     ]);
 
 app.config(function($routeProvider,$locationProvider) {
@@ -66,6 +67,28 @@ angular.module('notes').controller('homeCtrl', function ($scope, notesSrvc, regE
         })
     })();
 
+    $scope.filter = (index) => {
+
+        if($scope.indexes === undefined || $scope.indexes.includes(index))
+        {
+            return true;
+        }else{
+            return false;
+        }
+
+    }
+
+    $scope.search = () => {
+        $scope.indexes = [];
+        $scope.notes.forEach( (note,index)=>{
+            var title= note.title.toLowerCase();
+            if(title.indexOf($scope.lookingFor) !== -1)
+            {
+                $scope.indexes.push(index);
+            }
+        });
+    }
+
 });
 angular.module('notes').directive('appMenu',function(){
     return {
@@ -78,6 +101,43 @@ angular.module('notes').directive('appMenu',function(){
     }
 }) 
 angular.module('notes').controller('menuCtrl', function ($scope, $location, notesSrvc) {
+
+    $scope.showMenu = false;
+    $scope.home = true;
+    $scope.searchClass = "";
+
+    $scope.search = ()=>{
+        if($scope.searchClass === "")
+        {
+            $scope.searchClass = "expaned";
+            $('.search-input').focus();
+        }else{
+            //$scope.searchClass = "";
+        }
+        
+    }
+
+    $scope.menu = () => {
+        $scope.showMenu = !$scope.showMenu;
+        $scope.searchClass = "";
+        if($location.path() === '/add'){
+            $scope.home = true;
+        }else{
+            $scope.home = false;
+        }
+    }
+
+    $scope.navigateTo = () => {
+        if ($location.path() === '/add') {
+            $location.path('/');
+            $scope.searchClass = "";
+            $scope.home = false;
+        } else {
+            $location.path('/add');
+            $scope.searchClass = "";
+            $scope.home = true;
+        }
+    }
 
     notesSrvc.getAllNotes().then((result) => {
         $scope.showList = true;

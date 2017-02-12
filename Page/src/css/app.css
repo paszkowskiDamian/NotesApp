@@ -73,6 +73,9 @@ a:link {
   color: #dfdfdf;
   margin-top: 6em;
 }
+.search-panel {
+  margin: 10px;
+}
 
 .logo {
   font-family: 'Pacifico', cursive;
@@ -100,6 +103,35 @@ a:link {
   background-color: #ff6e40;
   width: 3.5em;
   height: 3.5em;
+  transition: ease-in-out 0.2s;
+  z-index: 3;
+}
+.mobile-menu.ng-hide {
+  bottom: 5%;
+  right: 5%;
+}
+.mobile-menu:hover {
+  background-color: #ff4a11;
+  transition: 0.2s;
+}
+.mobile-menu-search {
+  bottom: 23%;
+  z-index: 1;
+}
+.mobile-menu-search.expaned {
+  border-radius: 1.75em;
+  width: 20em;
+}
+.search-input {
+  margin-top: 0.75em;
+  width: 15em;
+  background-color: #fff;
+  border: none;
+  z-index: 5;
+}
+.mobile-menu-add {
+  bottom: 14%;
+  z-index: 2;
 }
 .menu-icon {
   color: #323232;
